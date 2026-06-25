@@ -1,4 +1,4 @@
-package com.example.jobportal.service;
+package com.example.jobportal.company.service;
 
 import com.example.jobportal.dto.CompanyDto;
 import com.example.jobportal.entity.Company;
