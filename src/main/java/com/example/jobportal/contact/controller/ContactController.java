@@ -2,13 +2,13 @@ package com.example.jobportal.contact.controller;
 
 import com.example.jobportal.contact.service.IContactService;
 import com.example.jobportal.dto.ContactRequestDto;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/contacts")
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ContactController {
     private final IContactService contactService;
     @PostMapping(version = "1.0")
-    public ResponseEntity<String> saveContactMsg(@RequestBody ContactRequestDto contactRequestDto){
+    public ResponseEntity<String> saveContactMsg(@RequestBody @Valid ContactRequestDto contactRequestDto){
 
             boolean isSaved = contactService.saveContact(contactRequestDto);
             if(isSaved){
@@ -31,6 +31,11 @@ public class ContactController {
 
 
 
+    }
+    @GetMapping
+    public ResponseEntity<String> returnStatus(@RequestParam @Validated @NotBlank(message = "Status can not be blank ") String status){
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body("Request Accepted");
     }
 
 
