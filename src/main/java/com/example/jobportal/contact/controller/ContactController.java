@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ContactController {
     private final IContactService contactService;
-    @PostMapping(version = "1.0")
+    @PostMapping(path = "/public",version = "1.0")
     public ResponseEntity<String> saveContactMsg(@RequestBody @Valid ContactRequestDto contactRequestDto){
 
             boolean isSaved = contactService.saveContact(contactRequestDto);
