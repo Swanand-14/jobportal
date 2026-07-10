@@ -20,7 +20,8 @@ public class PathConfig {
                 "/swagger-ui.html",
                 "/webjars/**",
                 "/api/auth/login/public",
-                "/api/auth/register/public"
+                "/api/auth/register/public",
+                "/api/csrf-token/public"
         );
     }
 

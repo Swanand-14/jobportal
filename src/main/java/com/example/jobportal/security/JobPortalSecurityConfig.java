@@ -23,6 +23,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -46,7 +48,8 @@ public class JobPortalSecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) {
-       return  http.csrf(csrfConfig->csrfConfig.disable()).cors(c->c.configurationSource(corsConfigurationSource())).authorizeHttpRequests((requests) -> {
+       return  http.csrf(csrfConfig->csrfConfig.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
+               .cors(c->c.configurationSource(corsConfigurationSource())).authorizeHttpRequests((requests) -> {
            publicPaths.forEach(p->requests.requestMatchers(p).permitAll());
            securedPaths.forEach(p->requests.requestMatchers(p).authenticated());
            requests.anyRequest().denyAll();
