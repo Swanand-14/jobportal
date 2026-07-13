@@ -66,14 +66,8 @@ public class AuthController {
     }
     @PostMapping("/register/public")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequestDto registerRequestDto){
-        CompromisedPasswordDecision decision = compromisedPasswordChecker.check(registerRequestDto.password());
-        if(decision.isCompromised()){
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("password","choose a strong password"));
-        }
-        Optional<JobPortalUser> existingUser = jobPortalUserRepository.findUserByEmailAndMobileNumberAllIgnoreCase(registerRequestDto.email(),registerRequestDto.mobileNumber());
-        if(existingUser.isEmpty()){
+
+
             JobPortalUser jobPortalUser = new JobPortalUser();
             BeanUtils.copyProperties(registerRequestDto,jobPortalUser);
             jobPortalUser.setPasswordHash(passwordEncoder.encode(registerRequestDto.password()));
@@ -81,8 +75,7 @@ public class AuthController {
             jobPortalUser.setRole(role);
             jobPortalUserRepository.save(jobPortalUser);
             return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already present");
+
 
 
     }
