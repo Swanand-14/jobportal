@@ -24,7 +24,7 @@ public class CompanyService implements ICompanyService {
     @Override
     public List<CompanyDto> getAllCompanies(){
 
-        List<Company> companylist =  companyRepository.findAll();
+        List<Company> companylist =  companyRepository.findAllWithJobsByStatus("ACTIVE");
         return companylist.stream().map(this::transformToData).collect(Collectors.toList());
 
 
