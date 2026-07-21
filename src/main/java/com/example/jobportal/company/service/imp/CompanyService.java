@@ -8,12 +8,14 @@ import com.example.jobportal.repository.CompanyRepository;
 import com.example.jobportal.company.service.ICompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CompanyService implements ICompanyService {
     private final CompanyRepository companyRepository;
 //    public CompanyService(CompanyRepository companyRepository){
