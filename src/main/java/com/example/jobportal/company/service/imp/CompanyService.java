@@ -8,6 +8,8 @@ import com.example.jobportal.repository.CompanyRepository;
 import com.example.jobportal.company.service.ICompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +25,7 @@ public class CompanyService implements ICompanyService {
 //        this.companyRepository = companyRepository;
 //    }
 
-
+    @Cacheable("companies")
     @Override
     public List<CompanyDto> getAllCompanies(){
 
@@ -60,11 +62,14 @@ public class CompanyService implements ICompanyService {
         );
         return updatedRecords > 0;
     }
+    @Cacheable("companies")
     @Override
     public List<CompanyDto> getAllCompaniesForAdmin() {
         List<Company> companyList =companyRepository.findAll();
         return companyList.stream().map(this::transformCompanyToDtoForAdmin).collect(Collectors.toList());
     }
+
+    @CacheEvict(value = "companies", allEntries = true)
     @Transactional
     @Override
     public void deleteCompanyById(Long id) {

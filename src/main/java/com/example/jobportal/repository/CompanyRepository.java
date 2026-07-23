@@ -1,6 +1,8 @@
 package com.example.jobportal.repository;
 
 import com.example.jobportal.entity.Company;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,6 +15,7 @@ public interface CompanyRepository extends JpaRepository<Company,Long> {
     @Query("SELECT DISTINCT c FROM Company c JOIN FETCH c.jobs j WHERE j.status = :status")
    List<Company>findAllWithJobsByStatus(@Param("status") String status);
 
+    @CacheEvict(value="companies",allEntries = true)
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("""
 
@@ -56,4 +59,9 @@ WHERE c.id=:id
             @Param("employees") Integer employees,
             @Param("website") String website
     );
+
+    @CacheEvict(value="companies",allEntries = true)
+    void deleteById(long id);
+    @CacheEvict(value="companies",allEntries = true)
+    Company save(Company entity);
 }
