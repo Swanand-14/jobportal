@@ -51,12 +51,13 @@ public class JobPortalSecurityConfig {
 
 
     @Bean
-    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) {
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, List<String> employerPaths) {
        return  http.csrf(csrfConfig->csrfConfig.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
                .cors(c->c.configurationSource(corsConfigurationSource())).authorizeHttpRequests((requests) -> {
            publicPaths.forEach(p->requests.requestMatchers(p).permitAll());
            adminPaths.forEach(p->requests.requestMatchers(p).hasRole("ADMIN"));
            securedPaths.forEach(p->requests.requestMatchers(p).authenticated());
+           employerPaths.forEach(p->requests.requestMatchers(p).hasRole("EMPLOYER"));
            requests.anyRequest().denyAll();
                }).addFilterBefore(new JwtTokenValidatorFilter(publicPaths), BasicAuthenticationFilter.class)
                 .formLogin(flc->flc.disable()).httpBasic(b -> b.disable()).exceptionHandling(exception -> exception

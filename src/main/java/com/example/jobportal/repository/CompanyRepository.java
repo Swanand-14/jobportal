@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface CompanyRepository extends JpaRepository<Company,Long> {
+
     @Query("SELECT DISTINCT c FROM Company c JOIN FETCH c.jobs j WHERE j.status = :status")
    List<Company>findAllWithJobsByStatus(@Param("status") String status);
 
