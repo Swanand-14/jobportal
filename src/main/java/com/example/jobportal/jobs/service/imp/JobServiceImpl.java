@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public abstract class JobServiceImpl implements IjobService {
+public class JobServiceImpl implements IjobService {
     private final JobRepository jobRepository;
     private final JobPortalUserRepository userRepository;
     @Override
@@ -33,6 +33,32 @@ public abstract class JobServiceImpl implements IjobService {
         return jobs.stream()
                 .map(job -> ApplicationUtility.transformJobToDto(job))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+
+    public JobDto updateJobStatus(Long jobId,
+
+                                  String status,
+
+                                  String employerEmail) {
+
+        // TODO
+
+        return null;
+
+    }
+
+    @Override
+
+    public JobDto createJob(JobDto jobDto,
+
+                            String employerEmail) {
+
+        // TODO
+
+        return null;
+
     }
 
 }

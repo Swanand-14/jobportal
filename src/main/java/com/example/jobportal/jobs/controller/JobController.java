@@ -1,7 +1,7 @@
 package com.example.jobportal.jobs.controller;
 
 import com.example.jobportal.dto.JobDto;
-import com.example.jobportal.jobs.service.IJobService;
+import com.example.jobportal.jobs.service.IjobService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class JobController {
 
-    private final IJobService jobService;
+    private final IjobService jobService;
 
     @GetMapping(path = "/employer", version = "1.0")
     public ResponseEntity<List<JobDto>> getEmployerJobs(Authentication authentication) {
