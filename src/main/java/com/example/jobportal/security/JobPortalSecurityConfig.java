@@ -1,6 +1,7 @@
 package com.example.jobportal.security;
 
 import com.example.jobportal.security.filter.JwtTokenValidatorFilter;
+import com.example.jobportal.security.util.CorsProperties;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -47,7 +48,7 @@ public class JobPortalSecurityConfig {
     private final List<String>securedPaths;
     @Qualifier("adminPaths")
     private final List<String>adminPaths;
-
+    private final CorsProperties corsProperties;
 
 
     @Bean
@@ -78,7 +79,7 @@ public class JobPortalSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+        config.setAllowedOrigins(corsProperties.getAllowedOrigins());
         config.setAllowedMethods(Collections.singletonList("*"));
         config.setAllowedHeaders(Collections.singletonList("*"));
         config.setAllowCredentials(true);
