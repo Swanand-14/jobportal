@@ -21,7 +21,8 @@ public class PathConfig {
                 "/webjars/**",
                 "/api/auth/login/public",
                 "/api/auth/register/public",
-                "/api/csrf-token/public"
+                "/api/csrf-token/public",
+                "/actuator/**"
         );
     }
 
