@@ -22,7 +22,8 @@ public class PathConfig {
                 "/api/auth/login/public",
                 "/api/auth/register/public",
                 "/api/csrf-token/public",
-                "/actuator/**"
+                "/actuator/**",
+                "/todos/**"
         );
     }
 
